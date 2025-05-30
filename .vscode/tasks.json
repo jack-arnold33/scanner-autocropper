@@ -1,0 +1,14 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Run Image Extractor without debug",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"image_extractor.py"
+			],
+			"group": "build"
+		}
+	]
+}
