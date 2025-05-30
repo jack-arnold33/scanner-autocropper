@@ -8,6 +8,7 @@ A Python application that detects and extracts multiple sub-images from a single
 - Automatically crops and extracts each detected image
 - Saves extracted images as separate JPG files
 - Adds padding around extracted images to ensure no content is cut off
+- Optional 90-degree rotation of extracted images (left or right)
 - Two specialized processing modes:
   - Standard mode for regular scanned documents
   - Scrapbook mode optimized for colored background pages
@@ -42,7 +43,7 @@ The script can process either a single image or a folder of images.
 ### Command Line Options
 
 ```powershell
-python image_extractor.py [-h] [--input INPUT] [--output OUTPUT] [--debug] [--scrapbook]
+python image_extractor.py [-h] [--input INPUT] [--output OUTPUT] [--debug] [--scrapbook] [--rotate {left,right}]
 ```
 
 Options:
@@ -51,6 +52,7 @@ Options:
 - `-o, --output`: Path to output directory
 - `-d, --debug`: Enable debug visualization mode
 - `-s, --scrapbook`: Enable scrapbook mode for colored background pages
+- `-r, --rotate`: Rotate output images 90 degrees ('left' or 'right')
 
 ### Examples
 
@@ -70,6 +72,16 @@ Process scrapbook pages:
 
 ```powershell
 python image_extractor.py -i path/to/scrapbook.jpg -o path/to/output -s
+```
+
+Rotate extracted images 90 degrees:
+
+```powershell
+# Rotate clockwise (right)
+python image_extractor.py -i path/to/folder -o path/to/output -r right
+
+# Rotate counter-clockwise (left)
+python image_extractor.py -i path/to/folder -o path/to/output -r left
 ```
 
 If no paths are provided, the program will prompt you for:

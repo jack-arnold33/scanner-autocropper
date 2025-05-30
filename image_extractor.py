@@ -3,7 +3,7 @@ import argparse
 from pathlib import Path
 from processors import StandardImageProcessor, ScrapbookImageProcessor
 
-def process_folder(input_folder, output_dir, debug=False, scrapbook_mode=False):
+def process_folder(input_folder, output_dir, debug=False, scrapbook_mode=False, rotation=None):
     """Process all images in the input folder and save extracted sub-images to output directory.
     
     Args:
@@ -11,9 +11,10 @@ def process_folder(input_folder, output_dir, debug=False, scrapbook_mode=False):
         output_dir (str): Directory to save extracted images
         debug (bool): If True, shows visualization of each processing step
         scrapbook_mode (bool): If True, uses the scrapbook image processor
+        rotation (str, optional): Direction to rotate images. Can be 'left' or 'right'
     """
     # Create the appropriate processor
-    processor = ScrapbookImageProcessor(debug) if scrapbook_mode else StandardImageProcessor(debug)
+    processor = ScrapbookImageProcessor(debug, rotation) if scrapbook_mode else StandardImageProcessor(debug, rotation)
     
     # Create output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
@@ -49,12 +50,16 @@ def process_folder(input_folder, output_dir, debug=False, scrapbook_mode=False):
 def main():
     # Set up argument parser
     parser = argparse.ArgumentParser(description='Extract sub-images from scanned images.')
-    parser.add_argument('--input', '-i', type=str, help='Path to the input folder containing images')
-    parser.add_argument('--output', '-o', type=str, help='Output directory path')
+    parser.add_argument('--input', '-i', type=str, 
+                       help='Path to the input folder containing images')
+    parser.add_argument('--output', '-o', type=str, 
+                       help='Output directory path')
     parser.add_argument('--debug', '-d', action='store_true', 
                        help='Enable debug mode to save visualization of detection process')
     parser.add_argument('--scrapbook', '-s', action='store_true',
                        help='Enable scrapbook mode for processing scrapbook page images')
+    parser.add_argument('--rotate', '-r', choices=['left', 'right'],
+                       help='Rotate output images 90 degrees left or right')
     args = parser.parse_args()
     
     # Get input and output paths
@@ -76,15 +81,15 @@ def main():
         if not input_path.exists():
             print(f"Error: Input path does not exist: {input_path}")
             return
-            
-        # Create output directory if it doesn't exist
+              # Create output directory if it doesn't exist
         output_dir.mkdir(parents=True, exist_ok=True)
         
         total_saved = process_folder(
             str(input_path),
             str(output_dir),
             debug=args.debug,
-            scrapbook_mode=args.scrapbook
+            scrapbook_mode=args.scrapbook,
+            rotation=args.rotate
         )
         
         if total_saved:
