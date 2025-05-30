@@ -1,0 +1,42 @@
+# Python virtual environment
+.venv/
+venv/
+ENV/
+
+# Python byte-compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# IDE specific files (VS Code)
+.vscode/*
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Operating System
+.DS_Store
+Thumbs.db
+
+# Local development
+*.log
+.env
+.env.*
+
+# Test coverage
+.coverage
+htmlcov/
+
+# Temporary files
+*.tmp
+*~
+
+# Output files and debug images
+*_image_*.jpg
+*_debug_*.jpg
+output/
