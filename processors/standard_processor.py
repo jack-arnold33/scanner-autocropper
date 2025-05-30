@@ -162,6 +162,9 @@ class StandardImageProcessor(BaseImageProcessor):
                 if sub_image.size == 0:
                     self.logger.warning(f"Skipping empty sub-image at coordinates ({x}, {y}, {w}, {h})")
                     continue
+                    
+                # Apply rotation if specified
+                sub_image = self.rotate_image(sub_image)
                 
                 output_path = os.path.join(output_dir, f'{source_name}_image_{saved_images + 1}.jpg')
                 success = cv2.imwrite(output_path, sub_image)

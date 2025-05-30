@@ -6,8 +6,15 @@ import abc
 class BaseImageProcessor(abc.ABC):
     """Base class for image processors."""
     
-    def __init__(self, debug=False):
+    def __init__(self, debug=False, rotation=None):
+        """Initialize the image processor.
+        
+        Args:
+            debug (bool): If True, shows visualization of each processing step
+            rotation (str, optional): Direction to rotate images. Can be 'left' or 'right'
+        """
         self.debug = debug
+        self.rotation = rotation
         self.logger = self._setup_logging()
         self._windows = []  # Track open windows
     
@@ -52,6 +59,24 @@ class BaseImageProcessor(abc.ABC):
             else:
                 cv2.waitKey(1)  # Brief pause to allow window to render
                 
+        return image
+    
+    def rotate_image(self, image):
+        """Rotate an image based on the rotation parameter.
+        
+        Args:
+            image: OpenCV image to rotate
+            
+        Returns:
+            Rotated image (or original if no rotation specified)
+        """
+        if not self.rotation:
+            return image
+            
+        if self.rotation == 'right':
+            return cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+        elif self.rotation == 'left':
+            return cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE)
         return image
     
     @abc.abstractmethod
